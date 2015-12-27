@@ -74,7 +74,7 @@
 
 	  // supply a function that can be called
 	  // to resolve the file that was rendered.
-	  viewResolver: function (viewName) {
+	  viewResolver: function viewResolver(viewName) {
 	    return __webpack_require__(210)("./" + viewName);
 	  }
 	};
@@ -23824,19 +23824,19 @@
 	module.exports = React.createClass({
 	  displayName: 'exports',
 
-	  componentDidMount: function () {
+	  componentDidMount: function componentDidMount() {
 	    EventsSingleton.emitter.on('dom-change', this.updateElement);
 	  },
 
-	  updateElement: function () {
+	  updateElement: function updateElement() {
 	    // Update state
 	    console.log('updateElement called on List component');
 	    var movies = MovieStore.getAll();
-	    //console.log(movies);
+	    // Important: this.setState({movies: MovieStore.getAll()}); won't work :(
 	    this.setState({ movies: movies });
 	  },
 
-	  getInitialState: function () {
+	  getInitialState: function getInitialState() {
 	    return { movies: this.props.movies };
 	  },
 
@@ -23912,16 +23912,16 @@
 	module.exports = React.createClass({
 	  displayName: 'exports',
 
-	  componentDidMount: function () {
+	  componentDidMount: function componentDidMount() {
 	    EventsSingleton.emitter.on('dom-change', this.updateElement);
 	  },
 
-	  updateElement: function () {
+	  updateElement: function updateElement() {
 	    // Update state
 	    console.log('updateElement called on add new item component');
 	  },
 
-	  addNew: function () {
+	  addNew: function addNew() {
 	    console.log('click');
 	    var newItem = {
 	      "title": "A Christmas Carol cloned",
@@ -23944,12 +23944,14 @@
 /* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	/**
 	 * Created by balint on 2015. 12. 27..
 	 */
 	var EventEmitter = __webpack_require__(204).EventEmitter;
 
-	var Events = function () {
+	var Events = function Events() {
 	  this.counter++;
 	};
 
@@ -24266,9 +24268,11 @@
 /* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var EventsSingleton = __webpack_require__(203);
 
-	var MovieStore = function () {
+	var MovieStore = function MovieStore() {
 	  var items = [{
 	    "id": "1",
 	    "title": "Ocean's 11",
@@ -24311,12 +24315,12 @@
 	    "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg"
 	  }];
 
-	  var getAll = function () {
+	  var getAll = function getAll() {
 	    return items;
 	  };
 
 	  // Add item to the store
-	  var addItem = function (item) {
+	  var addItem = function addItem(item) {
 	    var last = getLastId();
 	    var id = last * 1 + 1;
 	    console.log('New id: %s', id);
@@ -24327,7 +24331,7 @@
 	    EventsSingleton.emitter.emit('dom-change', this.getAll());
 	  };
 
-	  var getLastId = function () {
+	  var getLastId = function getLastId() {
 	    var lastIndex = items.length;
 	    var last = items[lastIndex - 1];
 	    return last.id;

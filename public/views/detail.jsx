@@ -23,7 +23,7 @@ module.exports = React.createClass({
   mixins: [Router.State],
 
   render: function render() {
-    var movieId = this.getParams().id;
+    let movieId = this.getParams().id;
     var movie = this.props.movies.filter(function(_movie) {
       return _movie.id === movieId;
     })[0];

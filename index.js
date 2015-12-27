@@ -25,7 +25,11 @@ var movies = require('./movies.json');
 var express = require('express');
 var renderer = require('react-engine');
 
+// ES6 enabled:
+let evens = [1,3,5,7,9,11];
+var odds = evens.map(v => v + 1);
 
+console.log(odds);
 
 var app = express();
 
