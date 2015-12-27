@@ -1,5 +1,5 @@
-# react-engine example app
-This movie catalog app illustrates the usage of react-engine to build and run an universal/isomorphic app.
+# Universal (isomorphic) react flux boilerplate experiment
+This movie catalog app illustrates the usage of react-engine to build and run an universal/isomorphic app with flux 
 
 ## app composition
 * [express - 4.x](https://github.com/strongloop/express) on the server side
@@ -272,5 +272,3 @@ $ open http://localhost:3000
   # copy the contents for this file from http://bit.ly/1m2co1B
 ```
 
-### to-do
-* add support for [404 and 500 pages](https://github.com/samsel/react-engine/tree/9666fb3bf47f29981dbdcb4160445e3efce67b5c/example/old/public/views)
