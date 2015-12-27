@@ -66,7 +66,7 @@
 	var Routes = __webpack_require__(1);
 
 	// import the react-engine's client side booter
-	var ReactEngineClient = __webpack_require__(207);
+	var ReactEngineClient = __webpack_require__(208);
 
 	// boot options
 	var options = {
@@ -75,7 +75,7 @@
 	  // supply a function that can be called
 	  // to resolve the file that was rendered.
 	  viewResolver: function (viewName) {
-	    return __webpack_require__(209)("./" + viewName);
+	    return __webpack_require__(210)("./" + viewName);
 	  }
 	};
 
@@ -112,8 +112,8 @@
 
 	var Layout = __webpack_require__(200);
 	var ListPage = __webpack_require__(201);
-	var DetailPage = __webpack_require__(205);
-	var About = __webpack_require__(206);
+	var DetailPage = __webpack_require__(206);
+	var About = __webpack_require__(207);
 
 	var routes = module.exports = React.createElement(
 	  Router.Route,
@@ -23818,9 +23818,19 @@
 	var React = __webpack_require__(2);
 	var Router = __webpack_require__(158);
 	var AddNewButton = __webpack_require__(202);
+	var EventsSingleton = __webpack_require__(203);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
+
+	  componentDidMount: function () {
+	    EventsSingleton.emitter.on('dom-change', this.updateElement);
+	  },
+
+	  updateElement: function () {
+	    // Update state
+	    console.log('updateElement called on List component');
+	  },
 
 	  render: function render() {
 
@@ -23880,10 +23890,15 @@
 
 	var React = __webpack_require__(2);
 	var EventsSingleton = __webpack_require__(203);
-	console.log(EventsSingleton);
+	var MovieStore = __webpack_require__(205);
 
+	// Define all events assoctiated with this component
 	EventsSingleton.emitter.on('new-item', function (payload) {
 	  console.log('Event fired');
+	  // Call Store events maybe?
+	  // adds new element to list
+	  MovieStore.addItem(payload);
+	  // store emits 'dom_change' (or just changes state?)
 	});
 
 	console.log(EventsSingleton);
@@ -23891,10 +23906,25 @@
 	module.exports = React.createClass({
 	  displayName: 'exports',
 
+	  componentDidMount: function () {
+	    EventsSingleton.emitter.on('dom-change', this.updateElement);
+	  },
+
+	  updateElement: function () {
+	    // Update state
+	    console.log('updateElement called on add new item component');
+	  },
+
 	  addNew: function () {
 	    console.log('click');
-	    EventsSingleton.emitter.emit('new-item', { title: 'Minions' });
+	    var newItem = {
+	      "title": "A Christmas Carol cloned",
+	      "url": "https://en.wikipedia.org/wiki/A_Christmas_Carol_(1938_film)",
+	      "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg"
+	    };
+	    EventsSingleton.emitter.emit('new-item', newItem);
 	  },
+
 	  render: function render() {
 	    return React.createElement(
 	      'button',
@@ -24230,6 +24260,80 @@
 /* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var EventsSingleton = __webpack_require__(203);
+
+	var MovieStore = function () {
+	  var items = [{
+	    "id": "1",
+	    "title": "Ocean's 11",
+	    "url": "https://en.wikipedia.org/wiki/Ocean%27s_11",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/6/68/Ocean%27s_Eleven_2001_Poster.jpg"
+	  }, {
+	    "id": "2",
+	    "title": "The Bourne Supremacy",
+	    "url": "https://en.wikipedia.org/wiki/The_Bourne_Supremacy_(film)",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/3/30/Bourne_supremacy_ver2.jpg"
+	  }, {
+	    "id": "3",
+	    "title": "500 Days of Summer",
+	    "url": "https://en.wikipedia.org/wiki/500_Days_of_Summer",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/d/d1/Five_hundred_days_of_summer.jpg"
+	  }, {
+	    "id": "4",
+	    "title": "The Terminal",
+	    "url": "https://en.wikipedia.org/wiki/The_Terminal",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/8/86/Movie_poster_the_terminal.jpg"
+	  }, {
+	    "id": "5",
+	    "title": "Mission: Impossible – Rogue Nation",
+	    "url": "https://en.wikipedia.org/wiki/Mission:_Impossible_%E2%80%93_Rogue_Nation",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/f/fb/Mission_Impossible_Rogue_Nation_poster.jpg"
+	  }, {
+	    "id": "6",
+	    "title": "Up",
+	    "url": "https://en.wikipedia.org/wiki/Up_(2009_film)",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/0/05/Up_%282009_film%29.jpg"
+	  }, {
+	    "id": "7",
+	    "title": "Elf",
+	    "url": "https://en.wikipedia.org/wiki/Elf_(film)",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/d/df/Elf_movie.jpg"
+	  }, {
+	    "id": "8",
+	    "title": "A Christmas Carol",
+	    "url": "https://en.wikipedia.org/wiki/A_Christmas_Carol_(1938_film)",
+	    "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg"
+	  }];
+
+	  var getAll = function () {
+	    return items;
+	  };
+
+	  // Add item to the store
+	  var addItem = function (item) {
+	    item.id = getLastId() + 1;
+	    // Call dom-change event
+	    EventsSingleton.emitter.emit('dom-change', this.getAll());
+	  };
+
+	  var getLastId = function () {
+	    var lastIndex = items.length;
+	    var last = items[lastIndex - 1];
+	    return last.id;
+	  };
+
+	  return {
+	    getAll: getAll,
+	    addItem: addItem
+	  };
+	};
+
+	module.exports = new MovieStore();
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/*-------------------------------------------------------------------------------------------------------------------*\
 	|  Copyright (C) 2015 PayPal                                                                                          |
 	|                                                                                                                     |
@@ -24280,7 +24384,7 @@
 	});
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*-------------------------------------------------------------------------------------------------------------------*\
@@ -24323,7 +24427,7 @@
 	});
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*-------------------------------------------------------------------------------------------------------------------*\
@@ -24343,7 +24447,7 @@
 
 	'use strict';
 
-	var Config = __webpack_require__(208);
+	var Config = __webpack_require__(209);
 
 	// declaring like this helps in unit test
 	// dependency injection using `rewire` module
@@ -24425,7 +24529,7 @@
 
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -24442,16 +24546,16 @@
 	};
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./about": 206,
-		"./about.jsx": 206,
+		"./about": 207,
+		"./about.jsx": 207,
 		"./addNew": 202,
 		"./addNew.jsx": 202,
-		"./detail": 205,
-		"./detail.jsx": 205,
+		"./detail": 206,
+		"./detail.jsx": 206,
 		"./layout": 200,
 		"./layout.jsx": 200,
 		"./list": 201,
@@ -24468,7 +24572,7 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 209;
+	webpackContext.id = 210;
 
 
 /***/ }

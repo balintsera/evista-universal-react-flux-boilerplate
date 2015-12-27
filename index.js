@@ -24,12 +24,7 @@ var path = require('path');
 var movies = require('./movies.json');
 var express = require('express');
 var renderer = require('react-engine');
-var dispatcher = require('flux').Dispatcher;
 
-global.AppDispatcher = new dispatcher();
-
-var Singleton = require('./src/Service/events.js');
-console.log(Singleton);
 
 // Stores
 var MovieStore = require('./src/stores/MovieStore.js');
@@ -43,18 +38,6 @@ var engine = renderer.server.create({
   routes: require(reactRoutesFilePath),
   routesFilePath: reactRoutesFilePath
 });
-
-global.AppDispatcher.register( function( payload ) {
-    switch( payload.eventName ) {
-        case 'new-item':
-            // We get to mutate data!
-            //MovieStore.items.push( payload.newItem );
-            console.log('Dispatch');
-            break;
-    }
-
-    return true; // Needed for Flux promise resolution
-}); 
 
 // set the engine
 app.engine('.jsx', engine);

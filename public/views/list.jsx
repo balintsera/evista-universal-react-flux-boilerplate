@@ -18,8 +18,20 @@
 var React = require('react');
 var Router = require('react-router');
 var AddNewButton = require('./addNew.jsx');
+var EventsSingleton = require('../../src/Service/events.js');
+
+
 
 module.exports = React.createClass({
+  componentDidMount: function() {
+    EventsSingleton.emitter.on('dom-change', this.updateElement);
+  },
+
+  updateElement: function() {
+    // Update state
+    console.log('updateElement called on List component');
+
+  },
 
   render: function render() {
 

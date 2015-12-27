@@ -1,4 +1,7 @@
-var MovieStore = (function(){
+var EventsSingleton = require('../../src/Service/events.js');
+
+
+var MovieStore = function(){
   var items = [
       {
         "id": "1",
@@ -49,13 +52,28 @@ var MovieStore = (function(){
         "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg"
       }
     ];
-  var getAll = function() {
-        return items;
-  };
-  
-  return {
-    getAll: getAll
-  }
-})();
 
-module.exports = MovieStore;
+  var getAll = function() {
+    return items;
+  };
+
+  // Add item to the store
+  var addItem = function(item) {
+    item.id = getLastId()+1;
+    // Call dom-change event
+    EventsSingleton.emitter.emit('dom-change', this.getAll());
+  };
+
+  var getLastId = function() {
+    var lastIndex = items.length;
+    var last = items[lastIndex-1];
+    return last.id;
+  };
+
+  return {
+    getAll: getAll,
+    addItem: addItem
+  }
+};
+
+module.exports = new MovieStore();
