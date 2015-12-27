@@ -17,6 +17,7 @@
 
 var React = require('react');
 var Router = require('react-router');
+var AddNewButton = require('./addNew.jsx');
 
 module.exports = React.createClass({
 
@@ -26,6 +27,7 @@ module.exports = React.createClass({
       <div id='list'>
         <h1>Movies</h1>
         <h6>Click on a movie to see the details</h6>
+        <AddNewButton />
         <ul>
           {this.props.movies.map(function(movie) {
             return (
