@@ -13,8 +13,6 @@
 |  the specific language governing permissions and limitations under the License.                                     |
 \*-------------------------------------------------------------------------------------------------------------------*/
 
-'use strict';
-
 // import the react-router routes
 var Routes = require('./routes.jsx');
 

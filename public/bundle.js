@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	/*-------------------------------------------------------------------------------------------------------------------*\
 	|  Copyright (C) 2015 PayPal                                                                                          |
 	|                                                                                                                     |
@@ -59,10 +61,7 @@
 	|  the specific language governing permissions and limitations under the License.                                     |
 	\*-------------------------------------------------------------------------------------------------------------------*/
 
-	'use strict';
-
 	// import the react-router routes
-
 	var Routes = __webpack_require__(1);
 
 	// import the react-engine's client side booter
@@ -23831,7 +23830,9 @@
 	  updateElement: function updateElement() {
 	    // Update state
 	    console.log('updateElement called on List component');
+
 	    var movies = MovieStore.getAll();
+	    console.log(movies);
 	    // Important: this.setState({movies: MovieStore.getAll()}); won't work :(
 	    this.setState({ movies: movies });
 	  },
@@ -24272,7 +24273,7 @@
 
 	var EventsSingleton = __webpack_require__(203);
 
-	var MovieStore = function MovieStore() {
+	var movieStore = function movieStore() {
 	  var items = [{
 	    "id": "1",
 	    "title": "Ocean's 11",
@@ -24319,22 +24320,22 @@
 	    return items;
 	  };
 
+	  var getLastId = function getLastId() {
+	    var lastIndex = items.length;
+	    var last = items[lastIndex - 1];
+	    return last.id;
+	  };
+
 	  // Add item to the store
 	  var addItem = function addItem(item) {
 	    var last = getLastId();
 	    var id = last * 1 + 1;
 	    console.log('New id: %s', id);
 	    item.id = id;
-
 	    items.push(item);
-	    // Call dom-change event
-	    EventsSingleton.emitter.emit('dom-change', this.getAll());
-	  };
 
-	  var getLastId = function getLastId() {
-	    var lastIndex = items.length;
-	    var last = items[lastIndex - 1];
-	    return last.id;
+	    // Call dom-change event
+	    EventsSingleton.emitter.emit('dom-change', getAll());
 	  };
 
 	  return {
@@ -24343,7 +24344,7 @@
 	  };
 	};
 
-	module.exports = new MovieStore();
+	module.exports = movieStore();
 
 /***/ },
 /* 206 */

@@ -30,7 +30,9 @@ module.exports = React.createClass({
   updateElement: function() {
     // Update state
     console.log('updateElement called on List component');
+   
     var movies = MovieStore.getAll();
+    console.log(movies);
     // Important: this.setState({movies: MovieStore.getAll()}); won't work :(
     this.setState({movies: movies});
   },
