@@ -59,7 +59,12 @@ var MovieStore = function(){
 
   // Add item to the store
   var addItem = function(item) {
-    item.id = getLastId()+1;
+    var last = getLastId();
+    var id = (last)*1+1;
+    console.log('New id: %s', id);
+    item.id = id;
+
+    items.push(item);
     // Call dom-change event
     EventsSingleton.emitter.emit('dom-change', this.getAll());
   };
@@ -75,5 +80,6 @@ var MovieStore = function(){
     addItem: addItem
   }
 };
+
 
 module.exports = new MovieStore();

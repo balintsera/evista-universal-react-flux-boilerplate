@@ -26,8 +26,6 @@ var express = require('express');
 var renderer = require('react-engine');
 
 
-// Stores
-var MovieStore = require('./src/stores/MovieStore.js');
 
 var app = express();
 

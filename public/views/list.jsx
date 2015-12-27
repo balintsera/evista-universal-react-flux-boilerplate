@@ -19,7 +19,7 @@ var React = require('react');
 var Router = require('react-router');
 var AddNewButton = require('./addNew.jsx');
 var EventsSingleton = require('../../src/Service/events.js');
-
+var MovieStore = require('../../src/stores/MovieStore.js');
 
 
 module.exports = React.createClass({
@@ -30,7 +30,13 @@ module.exports = React.createClass({
   updateElement: function() {
     // Update state
     console.log('updateElement called on List component');
+    var movies = MovieStore.getAll();
+    // Important: this.setState({movies: MovieStore.getAll()}); won't work :(
+    this.setState({movies: movies});
+  },
 
+  getInitialState: function() {
+    return {movies: this.props.movies};
   },
 
   render: function render() {
@@ -41,7 +47,7 @@ module.exports = React.createClass({
         <h6>Click on a movie to see the details</h6>
         <AddNewButton />
         <ul>
-          {this.props.movies.map(function(movie) {
+          {this.state.movies.map(function(movie) {
             return (
               <li>
                 <Router.Link to='detail' params={{id: movie.id}}>

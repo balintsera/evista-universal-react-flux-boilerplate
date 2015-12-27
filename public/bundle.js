@@ -23819,6 +23819,7 @@
 	var Router = __webpack_require__(158);
 	var AddNewButton = __webpack_require__(202);
 	var EventsSingleton = __webpack_require__(203);
+	var MovieStore = __webpack_require__(205);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -23830,6 +23831,13 @@
 	  updateElement: function () {
 	    // Update state
 	    console.log('updateElement called on List component');
+	    var movies = MovieStore.getAll();
+	    //console.log(movies);
+	    this.setState({ movies: movies });
+	  },
+
+	  getInitialState: function () {
+	    return { movies: this.props.movies };
 	  },
 
 	  render: function render() {
@@ -23851,7 +23859,7 @@
 	      React.createElement(
 	        'ul',
 	        null,
-	        this.props.movies.map(function (movie) {
+	        this.state.movies.map(function (movie) {
 	          return React.createElement(
 	            'li',
 	            null,
@@ -23900,8 +23908,6 @@
 	  MovieStore.addItem(payload);
 	  // store emits 'dom_change' (or just changes state?)
 	});
-
-	console.log(EventsSingleton);
 
 	module.exports = React.createClass({
 	  displayName: 'exports',
@@ -24311,7 +24317,12 @@
 
 	  // Add item to the store
 	  var addItem = function (item) {
-	    item.id = getLastId() + 1;
+	    var last = getLastId();
+	    var id = last * 1 + 1;
+	    console.log('New id: %s', id);
+	    item.id = id;
+
+	    items.push(item);
 	    // Call dom-change event
 	    EventsSingleton.emitter.emit('dom-change', this.getAll());
 	  };
