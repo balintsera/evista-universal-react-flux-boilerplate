@@ -1,11 +1,11 @@
 {
-  "name": "react-engine-example-app",
+  "name": "evista-universal-react-flux-boilerplate",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "webpack && node index.js"
   },
-  "author": "Sam Selvanathan (sjasel@gmail.com)",
+  "author": "Bálint Séra (sera.balint@e-vista.hu)",
   "dependencies": {
     "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",

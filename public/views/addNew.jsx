@@ -16,8 +16,8 @@
 'use strict';
 
 var React = require('react');
-var EventsSingleton = require('../../src/Service/events.js');
-var MovieStore = require('../../src/stores/MovieStore.js');
+var EventsSingleton = require('../../src/service/eventsManager.js');
+var MovieStore = require('../../src/stores/movieStore.js');
 
 // Define all events assoctiated with this component
 EventsSingleton.emitter.on('new-item', function(payload) {

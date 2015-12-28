@@ -21,15 +21,10 @@ require('babel-register')({
 
 var PORT = 3000;
 var path = require('path');
-var movies = require('./movies.json');
 var express = require('express');
 var renderer = require('react-engine');
-
-// ES6 enabled:
-let evens = [1,3,5,7,9,11];
-var odds = evens.map(v => v + 1);
-
-console.log(odds);
+var MovieStore = require('./src/stores/movieStore.js');
+const movies = MovieStore.getAll();
 
 var app = express();
 
@@ -59,7 +54,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 // add the our app routes
 app.get('*', function(req, res) {
   res.render(req.url, {
-    movies: movies
+    movies: movies,
   });
 });
 

@@ -1,4 +1,4 @@
-# Universal (isomorphic) react flux boilerplate experiment
+# Universal (isomorphic) react flux boilerplate (Evista Agency)
 This movie catalog app illustrates the usage of react-engine to build and run an universal/isomorphic app with flux 
 
 ## app composition
@@ -9,7 +9,7 @@ This movie catalog app illustrates the usage of react-engine to build and run an
 * [webpack - 1.x](https://github.com/webpack/webpack) as the client side module loader
 * [babel - 6.x](https://github.com/babel/babel) for compiling the ES6/JSX code
 
-## tl;dr - to run the example
+## tl;dr - to run the boilerplate example
 ```shell
 # cd `into_this_dir`
 $ npm install
@@ -17,7 +17,16 @@ $ npm start
 $ open http://localhost:3000
 ```
 
-## step by step walkthrough to build the app
+## developing (reload node on every single file change)
+```shell
+$ webpack --progress --colors --watch
+$ open http://localhost:3000
+```
+
+## step by step walkthrough to build an app from this boilerplate
+
+### step 0
+Clone this repo then remove .git folder from the root (we don't want to version control this repo, but the new app instead), and finally run 'git init .' to initialize the new repo. 
 
 ### step 1
 ```shell
@@ -26,249 +35,47 @@ $ open http://localhost:3000
   # (fill out the needed information like name, author, etc..)
   $ npm init
 
-  # install express, react, react-router & react-engine
-  $ npm install express react-engine@2 react@0.13 react-router@0.13 --save
-
-  # install the rest of the dependencies
-  $ npm install babel-register babel-preset-react webpack --save
-
-  # we are going to use a static json file that contains
-  # an array of movie information as the data source for
-  # our movie catalog app
-  $ touch movies.json
-  # copy the contents for this file from http://bit.ly/1NOU4nk
+  # install express, react, react-router & react-engine and the rest of the dependencies
+  $ npm install --save
 ```
 
 ### step 2
 ```shell
-  # next, let us build the client side of our app
-  # create a directory called public and inside that
-  # create the client side index file
-  $ mkdir public
-  $ touch public/index.js
-
-  # create a directory called views to hold all the view files
-  # also create a client side routes file to hold the react-router routes
-  $ mkdir public/views
-  $ touch public/routes.jsx
-
-  # setup the client side react-engine inside public/index.js
-  # instructions: https://github.com/paypal/react-engine#usage-on-client-side-mounting
-  # public/index.js code for our app can be found here - http://bit.ly/1Y8DOEh
+  # build and watch for developing
+  $ $ webpack --progress --colors --watch
 ```
 
 ### step 3
-```javascript
-  // since we are building a movie catalog app, let us plan to have two UI pages.
-  // 1. list page - to list the catalog of movies
-  // 2. detail page - to show the detailed description of a movie
 
-  // lets start building the react-router route file (public/routes.jsx)
-  // keeping in mind the above requirements
-  var Layout = require('./views/layout.jsx');
-  var ListPage = require('./views/list.jsx');
-  var DetailPage = require('./views/detail.jsx');
+Start building your application. 
 
-  var routes = module.exports = (
-    <Router.Route path='/' handler={Layout}>
-      <Router.DefaultRoute name='list' handler={ListPage} />
-      <Router.Route name='detail' path='/:id' handler={DetailPage} />
-    </Router.Route>
-  );
-```
+Please set up your editor to use Eslint (via .eslintrc file that is located on the root of this repo) to help you follow common coding practices. Ask Bálint for help :) 
 
-### step 4
-```shell
-  # next, lets build the actual UI inside the pages
-  # create the below three files inside the public/views directory
-  $ touch public/views/layout.jsx
-  $ touch public/views/list.jsx
-  $ touch public/views/detail.jsx
-```
+Folder convetions:
+* React components goes to `/public/views`
+* Stores and entity related files goes to `src/stores`
+* Static assets goes to public/assets
 
-```javascript
-  // public/views/layout.jsx file contains the main parts of the app
-  // such as html, body and script tags.
-  module.exports = React.createClass({
-    render: function render() {
-      return (
-        <html>
-          <head>
-            <meta charSet='utf-8' />
-            <title>React Engine Example App</title>
-          </head>
-          <body>
-            <div>
-              {/* Component that renders the active child route handler of a parent route handler component. */}
-              <Router.RouteHandler {...this.props} />
-            </div>
-          </body>
-        </html>
-      );
-    }
-  });  
+File names are camelCased exept for classes that are UpperCased.  
 
-  // public/views/list.jsx file contains the catalog view elements of our app.
-  // we iterate through the array of movies and display them on this page.
-  module.exports = React.createClass({
-    render: function render() {
-      return (
-        <div id='list'>
-          <h1>Movies</h1>
-          <h6>Click on a movie to see the details</h6>
-          <ul>
-            {this.props.movies.map(function(movie) {
-              return (
-                <li>
-                  <Router.Link to='detail' params={{id: movie.id}}>
-                    <img src={movie.image} alt={movie.title} />
-                  </Router.Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      );
-    }
-  });
+If you break this rules a kitty dies :)
 
-  // public/views/detail.jsx file contains the markup to
-  // display the detail information of a movie
-  module.exports = React.createClass({
-    mixins: [Router.State],
-    render: function render() {
-      var movieId = this.getParams().id;
-      var movie = this.props.movies.filter(function(_movie) {
-        return _movie.id === movieId;
-      })[0];
-      return (
-        <div id='detail'>
-          <h1>{movie.title}</h1>
-          <img src={movie.image} alt={movie.title} />
-          <a href={movie.url} target='_blank'>more info</a>
-        </div>
-      );
-    }
-  });
-```
+## Remove the movie example related files
 
-### step 5
-```shell
-  # next, lets add the server side file
-  $ touch index.js
-```
+* From public/views: `list.jsx, detail.jsx, addNew.jsx, about.jsx` 
 
-```javascript
-  // start by configuring Babel at the top
-  // this takes care of parsing JSX files and also ES6 code
-  require('babel-register')({
-    presets: ['react']
-  });
+* From public/routes.jsx: `remove/replace all Router.Route and Router.DefaultRoute`
 
-  // next, lets create the express app
-  var express = require('express');
-  var renderer = require('react-engine');
-  var app = express();
+* From src/stores: `remove MovieStore.js, and remove all require/import that points to this store`
 
-  // then create the view engine for our express app
-  var reactRoutesFilePath = path.join(__dirname + '/public/routes.jsx');
-  var engine = renderer.server.create({
-    routes: require(reactRoutesFilePath),
-    routesFilePath: reactRoutesFilePath
-  });
+## Todos
 
-  // then configure our express app with the view engine that we created
-  // set the engine
-  app.engine('.jsx', engine);
-  // set the view directory
-  app.set('views', path.join(__dirname, '/public/views'));
-  // set jsx as the view engine
-  app.set('view engine', 'jsx');
-  // finally, set the custom view
-  app.set('view', renderer.expressView);
+1. integrate Jest (Facebook's testing environment)
+2. create a Docker compose file with all tools installed 
+3. integrate Redis (into stores maybe? or with some orm)
+4. 404 page 
+5. Sass
 
-  // next, lets configure the routes for the express app
-  // expose public folder as static assets (JS/CSS)
-  app.use(express.static(path.join(__dirname, '/public')));
-  // add the our app routes
-  // we open a free pass to all GET requests to our app and use react-engine to render them
-  app.get('*', function(req, res) {
-    res.render(req.url, {
-      movies: require('./movies.json')
-    });
-  });  
+## Credits
 
-  // the last step in the server side is to configure the express app to listen on port 3000
-  app.listen(3000, function() {
-    console.log('Example app listening at http://localhost:%s', PORT);
-  });
-
-  // the consolidated full code for this file can be
-  // found here: http://bit.ly/1MdzR5c
-```
-
-### step 6
-```shell
-  # finally, lets configure webpack, our client side module loader
-  # we need two webpack loaders for our app
-  # 1. babel-loader for webpack to load jsx and es6 code
-  # 2. json-loader for webpack to load json files
-  $ npm install babel-loader json-loader --save
-
-  # next, add a webpack configuration file  
-  $ touch webpack.config.js
-
-  # configure webpack to build a bundle.js file using public/index.js as the main file
-  #  module.exports = {
-  #
-  #    entry: __dirname + '/public/index.js',
-  #
-  #    output: {
-  #      path: __dirname + '/public',
-  #      filename: 'bundle.js'
-  #    },
-  #
-  #    module: {
-  #      loaders: [
-  #          {
-  #            test: /\.jsx?$/,
-  #            exclude: /node_modules/,
-  #            loader: 'babel?presets[]=react'
-  #          },
-  #          {
-  #            test: /\.json$/,
-  #            loader: 'json-loader'
-  #          }
-  #      ]
-  #    },
-  #
-  #    resolve: {
-  #      extensions: ['', '.js', '.jsx', '.json']
-  #    }
-  #  };
-```
-
-### step 7
-```shell
-  # modify the public/views/layout.jsx file to add the bundle.js into it
-  # <script src='/bundle.js'></script>
-
-  # also lets add a start script to our package.json to build our client code using webpack and then start the app
-  #  "scripts": {
-  #    "start": "webpack && node index.js"
-  #  }
-
-  # now that we are done with the app,
-  # lets start the app and launch http://localhost:3000 in a browser
-  $ npm start
-```
-
-### misc
-```shell
-  # to beautify our movie catalog app we are going to add some css
-  # modify the public/views/layout.jsx file to add the styles.css into it
-  # <link rel='stylesheet' href='/styles.css'></link>
-  $ touch public/styles.css
-  # copy the contents for this file from http://bit.ly/1m2co1B
-```
-
+All credits goes to the brilliand minds who wrote these packages. 
