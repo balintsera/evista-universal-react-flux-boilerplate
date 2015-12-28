@@ -68,6 +68,127 @@ If you break this rules a kitty dies :)
 
 * From src/stores: `remove MovieStore.js, and remove all require/import that points to this store`
 
+## How to add a new page
+
+### Add a new route
+
+Head to `public/routes.jsx`, add a new <Router.Route /> component below:
+
+```javascript
+var routes = module.exports = (
+  <Router.Route path='/' handler={Layout}>
+    <Router.DefaultRoute name='list' handler={ListPage} />
+    <Router.Route name='detail' path='/movie/:id' handler={DetailPage} />
+    <Router.Route name='about' path='/about' handler={About} />
+    // Add the new route here:
+    
+  </Router.Route>
+);
+```
+
+Like with other routing libraries, pairing a _path with a handler_ (any React component) is enough, though  using name helps generating routes but not obligatory.
+
+If you want to know more about routing consult with its documentation here: https://github.com/rackt/react-router/tree/0.13.x
+
+### Add a handler
+ 
+Now you have a route but not a handler. Go to `public/views` directory and touch a file called after the new component or page, like `about.jsx`. Create a React class and add it to `module.exports` –– or better export it using [ES6 export](https://developer.mozilla.org/hu/docs/Web/JavaScript/Reference/Statements/export). 
+
+```javascript
+var React = require('react');
+var Router = require('react-router');
+
+module.exports = React.createClass({
+
+  mixins: [Router.State],
+
+  render: function render() {
+    return (
+      <div id='about'>
+        <h1>About page</h1>
+        This is about page
+      </div>
+    );
+  }
+});
+```
+
+This component will appear in the context of the `layout.jsx` much like template inheritence because the new route was defind inside the first `Router.Router`. 
+
+This is it, you have a new page with a new component. And because any component can contain further components the new page can conatain almost anything.
+
+And by the way its isomorphic: the browser gets a fully rendered markup that comes to life by react after the page loads. 
+
+### Flux, models and persisting
+
+If you happen to use any model in your application like users or carts, a full but really simple flux implementation is at your finger. Flux is a really hot buzzword these days but actually its not as complicated as people say. 
+
+In a flux implementation, every user action (like a click on an element) fires an event passing some datas to the event manager. Then the event manager can tell the store to do something with those payload, for example add a new element to a list with its datas. 
+
+The store is eigther a wrapper object for all of the models used in the application or of just some connected ones but the important is that only the store can update/mutate these models, like adding a new item. This is really important, because every changes of an element is first created in the store, and never can happen that awkvard moment when you find out that some element changed without changing the model and vice versa.
+
+After the store mutates the model or itself, it can fire an event, that tells every component to rerender itself. Any component that is subscribed to this 'rerender' event can refresh its state that in turn refreshes its dom representation - if its really needed. React.js take care of it wiht its so called shadow DOM.
+
+In short flux secures that changes will flow always this way: UI Event -> Store mutation -> Store event -> UI rerendering  
+
+So no more quirky direct dom manipulations on successfull ajax calls and no hidden ajax calls on exotic radio button events somwhere deeply hidden in the page's markup. 
+
+If you need any model, you can access the store and get it like in the example:
+
+```javascript
+var MovieStore = require('../../src/stores/movieStore.js');
+
+// ...and later in your component you 
+      <ul>
+          {this.state.movies.map(function(movie) {
+            return (
+              <li>
+``` 
+
+And if this component uses this store as its model, simply subscribe it to any events, eg. 'dom-change':
+
+```javascript
+componentDidMount: function() {
+  EventsSingleton.emitter.on('dom-change', this.updateElement);
+},
+```  
+
+Whenever some store operation fires a 'dom-change' event, this component will run `this.updateElement()` where the state can be updated directly from the store: 
+
+```javascript
+updateElement: function() {
+  // Update state from the store
+  var movies = MovieStore.getAll();
+  
+  // Important: this.setState({movies: MovieStore.getAll()}); won't work :(
+  this.setState({movies: movies});
+},
+```  
+
+Only one thing left: the store have to fire this 'dom-change' event after it mutates the store:
+
+```javascript
+const EventsSingleton = require('../../src/service/eventsManager.js');
+
+
+// Then somewhere in your store call dom-change event after you mutated the store and possible saved changes to the database:
+EventsSingleton.emitter.emit('dom-change', getAll());
+```
+
+This way every model change takes place in the store, and every components can subscribe to any event and change their inner state. 
+
+Which means that the model and the view layers of the application's view layer (yeah it's meta a little bit) are separated. And _separating concerns_ is the most important rule of maintanable code.  
+
+### Server side tasks
+
+In a isomorphic application there's no such sharp lines between client side and server side code, because there are more important concerns to keep separated, but if some task are needed before displaying a page in the browser, just define a service class and run it before rendering the components.
+
+You can safely use it a new Express midleware in your index.js (if it have to run on almost every request).
+
+And finally server side only tasks like persisting a store model mutation can be managed by new Express routes.
+
+
+
 ## Todos
 
 1. integrate Jest (Facebook's testing environment)
@@ -78,4 +199,4 @@ If you break this rules a kitty dies :)
 
 ## Credits
 
-All credits goes to the brilliand minds who wrote these packages. 
+All credits goes to the brilliant minds who wrote those packages that this boilerplate is based on. For details see package.json 
