@@ -51,7 +51,10 @@ app.set('view', renderer.expressView);
 // expose public folder as static assets
 app.use(express.static(path.join(__dirname, '/public')));
 
-// add the our app routes
+// Server side routes
+const serverSideRoutes = require('./src/server/routes.js')(app);
+
+// add the react routs
 app.get('*', function(req, res) {
   res.render(req.url, {
     movies: movies,
