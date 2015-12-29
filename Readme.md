@@ -191,10 +191,15 @@ module.exports = function routes(app) {
 };
 ```
 
+## Testing
+
+Jest is configured out of the box, see their tutorial for details: https://facebook.github.io/jest/docs/getting-started.html#content
+
+Short: run `npm test`
 
 ## Todos
 
-1. integrate Jest (Facebook's testing environment)
+1. ~~integrate Jest (Facebook's testing environment)~~
 2. create a Docker compose file with all tools installed 
 3. integrate Redis (into stores maybe? or with some orm)
 4. 404 page 
