@@ -181,12 +181,15 @@ Which means that the model and the view layers of the application's view layer (
 
 ### Server side tasks
 
-In a isomorphic application there's no such sharp lines between client side and server side code, because there are more important concerns to keep separated, but if some task are needed before displaying a page in the browser, just define a service class and run it before rendering the components.
+Any React component can use any service modul before rendering.  If you need a pure json response, define a route and a handler in `src/server/routes.js` the Express way:
 
-You can safely use it a new Express midleware in your index.js (if it have to run on almost every request).
+```javascript
+const apiHandler = require('../service/testing.js');
 
-And finally server side only tasks like persisting a store model mutation can be managed by new Express routes.
-
+module.exports = function routes(app) {
+  app.get('/api', apiHandler);
+};
+```
 
 
 ## Todos
