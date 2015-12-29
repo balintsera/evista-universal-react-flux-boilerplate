@@ -125,13 +125,13 @@ If you happen to use any model in your application like users or carts, a full b
 
 In a flux implementation, every user action (like a click on an element) fires an event passing some datas to the event manager. Then the event manager can tell the store to do something with those payload, for example add a new element to a list with its datas. 
 
-The store is eigther a wrapper object for all of the models used in the application or of just some connected ones but the important is that only the store can update/mutate these models, like adding a new item. This is really important, because every changes of an element is first created in the store, and never can happen that awkvard moment when you find out that some element changed without changing the model and vice versa.
+The store is a wrapper object for the models used in the application. Only  the store allowed to update/mutate them.  
 
-After the store mutates the model or itself, it can fire an event, that tells every component to rerender itself. Any component that is subscribed to this 'rerender' event can refresh its state that in turn refreshes its dom representation - if its really needed. React.js take care of it wiht its so called shadow DOM.
+After the store mutates the model or itself, it fires an event, that tells every components to rerender themself. Any component that is subscribed to this 'rerender' event can refresh its state that in turn refreshes its DOM representation - if its really needed (React.js takes care of it with its shadow DOM).
 
 In short flux secures that changes will flow always this way: UI Event -> Store mutation -> Store event -> UI rerendering  
 
-So no more quirky direct dom manipulations on successfull ajax calls and no hidden ajax calls on exotic radio button events somwhere deeply hidden in the page's markup. 
+So no more quirky direct dom manipulations on successfull ajax calls and no hidden ajax calls on exotic radio button events somewhere deeply hidden in the page's markup. 
 
 If you need any model, you can access the store and get it like in the example:
 
