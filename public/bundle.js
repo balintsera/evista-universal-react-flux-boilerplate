@@ -65,7 +65,7 @@
 	var Routes = __webpack_require__(1);
 
 	// import the react-engine's client side booter
-	var ReactEngineClient = __webpack_require__(209);
+	var ReactEngineClient = __webpack_require__(208);
 
 	// boot options
 	var options = {
@@ -74,7 +74,7 @@
 	  // supply a function that can be called
 	  // to resolve the file that was rendered.
 	  viewResolver: function viewResolver(viewName) {
-	    return __webpack_require__(211)("./" + viewName);
+	    return __webpack_require__(210)("./" + viewName);
 	  }
 	};
 
@@ -113,13 +113,13 @@
 	var ListPage = __webpack_require__(201);
 	var DetailPage = __webpack_require__(206);
 	var About = __webpack_require__(207);
-	var Serverside = __webpack_require__(208);
 
 	var routes = module.exports = React.createElement(
 	  Router.Route,
 	  { path: '/', handler: Layout },
 	  React.createElement(Router.DefaultRoute, { name: 'list', handler: ListPage }),
-	  React.createElement(Router.Route, { name: 'detail', path: '/movie/:id', handler: DetailPage })
+	  React.createElement(Router.Route, { name: 'detail', path: '/movie/:id', handler: DetailPage }),
+	  React.createElement(Router.Route, { name: 'about', path: '/about', handler: About })
 	);
 
 /***/ },
@@ -24446,16 +24446,6 @@
 
 /***/ },
 /* 208 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function (req, res) {
-	  res.json({ name: 'api response' });
-	};
-
-/***/ },
-/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*-------------------------------------------------------------------------------------------------------------------*\
@@ -24475,7 +24465,7 @@
 
 	'use strict';
 
-	var Config = __webpack_require__(210);
+	var Config = __webpack_require__(209);
 
 	// declaring like this helps in unit test
 	// dependency injection using `rewire` module
@@ -24557,7 +24547,7 @@
 
 
 /***/ },
-/* 210 */
+/* 209 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -24574,7 +24564,7 @@
 	};
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
@@ -24600,7 +24590,7 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 211;
+	webpackContext.id = 210;
 
 
 /***/ }
