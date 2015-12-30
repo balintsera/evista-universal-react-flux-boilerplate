@@ -1,9 +1,9 @@
 {
   "name": "evista-universal-react-flux-boilerplate",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "webpack && node index.js",
+    "start": "webpack && node src/app.js",
     "test": "jest"
   },
   "author": "Bálint Séra (sera.balint@e-vista.hu)",

@@ -1,0 +1,12 @@
+node1:
+    image: evista/universal-node
+    links:
+        - redis
+    ports:
+        - "80"
+    volumes:
+    - ./:/nodeapp
+redis:
+    image: redis
+    ports:
+        - "6379"
