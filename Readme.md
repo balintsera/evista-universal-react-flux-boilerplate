@@ -197,10 +197,14 @@ Jest is configured out of the box, see their tutorial for details: https://faceb
 
 Short: run `npm test`
 
+## Docker
+
+After installing Docker and Docker Compose the only thing you have to do is to run `docker-compose up` in the root directory. This will start a Docker image with Node, Redis and the starting npm packages. 
+
 ## Todos
 
 1. ~~integrate Jest (Facebook's testing environment)~~
-2. create a Docker compose file with all tools installed 
+2. ~~create a Docker compose file with all tools installed~~ 
 3. integrate Redis (into stores maybe? or with some orm)
 4. 404 page 
 5. Sass
