@@ -211,4 +211,4 @@ After installing Docker and Docker Compose the only thing you have to do is to r
 
 ## Credits
 
-All credits goes to the brilliant minds who wrote those packages that this boilerplate is based on. For details see package.json 
+All credits goes to the brilliant minds who wrote those packages that this boilerplate is based on. For details see package.json  
