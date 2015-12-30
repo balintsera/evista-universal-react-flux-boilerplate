@@ -15,43 +15,52 @@
 
 'use strict';
 
-var React = require('react');
-var EventsSingleton = require('../../src/service/eventsManager.js');
-var MovieStore = require('../../src/stores/movieStore.js');
-
-// Define all events assoctiated with this component
-EventsSingleton.emitter.on('new-item', function(payload) {
-  console.log('Event fired');
-  // Call Store events maybe?
-  // adds new element to list
-  MovieStore.addItem(payload);
-    // store emits 'dom_change' (or just changes state?)
+require('babel-register')({
+  presets: ['react']
 });
 
+var PORT = 8080;
+var path = require('path');
+var express = require('express');
+var renderer = require('react-engine');
+var MovieStore = require('./stores/movieStore.js');
+const movies = MovieStore.getAll();
 
-module.exports = React.createClass({
-  componentDidMount: function() {
-    EventsSingleton.emitter.on('dom-change', this.updateElement);
-  },
+var app = express();
 
-  updateElement: function() {
-    // Update state
-    console.log('updateElement called on add new item component');
-  },
+// create the view engine with `react-engine`
+var reactRoutesFilePath = path.join(__dirname + '/client/routes.jsx');
 
-  addNew: function() {
-    console.log('click');
-    var newItem =  {
-      "title": "A Christmas Carol cloned",
-      "url": "https://en.wikipedia.org/wiki/A_Christmas_Carol_(1938_film)",
-      "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg"
-    };
-    EventsSingleton.emitter.emit('new-item', newItem);
-  },
+var engine = renderer.server.create({
+  routes: require(reactRoutesFilePath),
+  routesFilePath: reactRoutesFilePath
+});
 
-  render: function render() {
-    return (
-      <button onClick={this.addNew}>Add new</button>
-    );
-  }
+// set the engine
+app.engine('.jsx', engine);
+
+// set the view directory
+app.set('views', path.join(__dirname, '/views'));
+
+// set jsx as the view engine
+app.set('view engine', 'jsx');
+
+// finally, set the custom view
+app.set('view', renderer.expressView);
+
+// expose public folder as static assets
+app.use(express.static('public'));
+
+// Server side routes
+const serverSideRoutes = require('./server/routes.js')(app);
+
+// add the react routs
+app.get('*', function(req, res) {
+  res.render(req.url, {
+    movies: movies,
+  });
+});
+
+var server = app.listen(PORT, function() {
+  console.log('Example app listening at http://localhost:%s', PORT);
 });

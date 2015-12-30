@@ -18,8 +18,8 @@
 var React = require('react');
 var Router = require('react-router');
 var AddNewButton = require('./addNew.jsx');
-var EventsSingleton = require('../../src/service/eventsManager.js');
-var MovieStore = require('../../src/stores/movieStore.js');
+var EventsSingleton = require('../service/eventsManager.js');
+var MovieStore = require('../stores/movieStore.js');
 
 
 module.exports = React.createClass({

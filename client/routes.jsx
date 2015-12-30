@@ -13,24 +13,22 @@
 |  the specific language governing permissions and limitations under the License.                                     |
 \*-------------------------------------------------------------------------------------------------------------------*/
 
-// import the react-router routes
-var Routes = require('./routes.jsx');
+'use strict';
 
-// import the react-engine's client side booter
-var ReactEngineClient = require('react-engine/lib/client');
+// import react and react-router
+var React = require('react');
+var Router = require('react-router');
 
-// boot options
-var options = {
-  routes: Routes,
+var Layout = require('../views/layout.jsx');
+var ListPage = require('../views/list.jsx');
+var DetailPage = require('../views/detail.jsx');
+var About = require('../views/about.jsx');
 
-  // supply a function that can be called
-  // to resolve the file that was rendered.
-  viewResolver: function(viewName) {
-    return require('./views/' + viewName);
-  }
-};
 
-document.addEventListener('DOMContentLoaded', function onLoad() {
-  // boot the app when the DOM is ready
-  ReactEngineClient.boot(options);
-});
+var routes = module.exports = (
+  <Router.Route path='/' handler={Layout}>
+    <Router.DefaultRoute name='list' handler={ListPage} />
+    <Router.Route name='detail' path='/movie/:id' handler={DetailPage} />
+    <Router.Route name='about' path='/about' handler={About} />
+  </Router.Route>
+);

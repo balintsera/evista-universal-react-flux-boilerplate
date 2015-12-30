@@ -1,4 +1,4 @@
-const EventsSingleton = require('../../src/service/eventsManager.js');
+const EventsSingleton = require('../service/eventsManager.js');
 
 
 const movieStore = () => {

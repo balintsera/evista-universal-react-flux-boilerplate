@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "src/app.js",
   "scripts": {
-    "start": "webpack && node src/app.js",
+    "start": "webpack && node app.js",
+    "watch": "webpack --progress --colors --watch && node app.js",
     "test": "jest"
   },
   "author": "Bálint Séra (sera.balint@e-vista.hu)",

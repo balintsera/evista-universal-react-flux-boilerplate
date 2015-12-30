@@ -17,7 +17,7 @@
 
 module.exports = {
 
-  entry: __dirname + '/public/index.js',
+  entry: __dirname + '/client/index.js',
 
   output: {
     path: __dirname + '/public',

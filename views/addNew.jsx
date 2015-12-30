@@ -15,20 +15,43 @@
 
 'use strict';
 
-// import react and react-router
 var React = require('react');
-var Router = require('react-router');
+var EventsSingleton = require('../service/eventsManager.js');
+var MovieStore = require('../stores/movieStore.js');
 
-var Layout = require('./views/layout.jsx');
-var ListPage = require('./views/list.jsx');
-var DetailPage = require('./views/detail.jsx');
-var About = require('./views/about.jsx');
+// Define all events assoctiated with this component
+EventsSingleton.emitter.on('new-item', function(payload) {
+  console.log('Event fired');
+  // Call Store events maybe?
+  // adds new element to list
+  MovieStore.addItem(payload);
+    // store emits 'dom_change' (or just changes state?)
+});
 
 
-var routes = module.exports = (
-  <Router.Route path='/' handler={Layout}>
-    <Router.DefaultRoute name='list' handler={ListPage} />
-    <Router.Route name='detail' path='/movie/:id' handler={DetailPage} />
-    <Router.Route name='about' path='/about' handler={About} />
-  </Router.Route>
-);
+module.exports = React.createClass({
+  componentDidMount: function() {
+    EventsSingleton.emitter.on('dom-change', this.updateElement);
+  },
+
+  updateElement: function() {
+    // Update state
+    console.log('updateElement called on add new item component');
+  },
+
+  addNew: function() {
+    console.log('click');
+    var newItem =  {
+      "title": "A Christmas Carol cloned",
+      "url": "https://en.wikipedia.org/wiki/A_Christmas_Carol_(1938_film)",
+      "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg"
+    };
+    EventsSingleton.emitter.emit('new-item', newItem);
+  },
+
+  render: function render() {
+    return (
+      <button onClick={this.addNew}>Add new</button>
+    );
+  }
+});
