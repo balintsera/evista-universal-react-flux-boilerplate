@@ -62,17 +62,17 @@ If you break this rules a kitty dies :)
 
 ## Remove the movie example related files
 
-* From public/views: `list.jsx, detail.jsx, addNew.jsx, about.jsx` 
+* From /views: `list.jsx, detail.jsx, addNew.jsx, about.jsx` 
 
-* From public/routes.jsx: `remove/replace all Router.Route and Router.DefaultRoute`
+* From client/routes.jsx: `remove/replace all Router.Route and Router.DefaultRoute`
 
-* From src/stores: `remove MovieStore.js, and remove all require/import that points to this store`
+* From /stores: `remove MovieStore.js, and remove all require/import that points to this store`
 
 ## How to add a new page
 
 ### Add a new route
 
-Head to `public/routes.jsx`, add a new <Router.Route /> component below:
+Head to `client/routes.jsx`, add a new <Router.Route /> component below:
 
 ```javascript
 var routes = module.exports = (
@@ -168,7 +168,7 @@ updateElement: function() {
 Only one thing left: the store have to fire this 'dom-change' event after it mutates the store:
 
 ```javascript
-const EventsSingleton = require('../../src/service/eventsManager.js');
+const EventsSingleton = require('../service/eventsManager.js');
 
 
 // Then somewhere in your store call dom-change event after you mutated the store and possible saved changes to the database:
