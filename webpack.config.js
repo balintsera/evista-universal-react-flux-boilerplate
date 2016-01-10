@@ -34,12 +34,12 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
-      }
-    ]
+      },
+    ],
   },
 
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
-    root: './'
-  }
+    root: './',
+  },
 };
