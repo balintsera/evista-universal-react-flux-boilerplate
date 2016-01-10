@@ -19,6 +19,8 @@
     "react": "^0.13.3",
     "react-engine": "^2.6.0",
     "react-router": "^0.13.5",
+    "sails-redis": "^0.10.6",
+    "waterline": "^0.10.30",
     "webpack": "^1.12.9"
   },
   "devDependencies": {
