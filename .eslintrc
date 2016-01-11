@@ -1,3 +1,8 @@
 {
-  "extends": "airbnb/base"
+  "extends": "defaults/configurations/walmart/es6-react",
+  "rules":{
+    "quotes": [1, "single"],
+    "no-var": [1]
+  }
+
 }
