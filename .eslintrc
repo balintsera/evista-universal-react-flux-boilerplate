@@ -1,8 +1,9 @@
 {
-  "extends": "defaults/configurations/walmart/es6-react",
+  "extends": "defaults/configurations/walmart/es6-node",
   "rules":{
     "quotes": [1, "single"],
-    "no-var": [1]
+    "no-var": [1],
+    "object-shorthand": [1, "always"]
   }
 
 }
