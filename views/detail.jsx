@@ -15,7 +15,7 @@ module.exports = React.createClass({
 
     return (
       <div id='detail'>
-        <h1>{movie.title}</h1>
+        <h2>{movie.title}</h2>
         <img src={movie.image} alt={movie.title} />
         <a href={movie.url} target='_blank'>more info</a>
       </div>

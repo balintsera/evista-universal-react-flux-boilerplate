@@ -32,7 +32,9 @@
     "eslint-plugin-filenames": "^0.2.0",
     "eslint-plugin-react": "^3.13.1",
     "jest-cli": "^0.8.2",
-    "jest-webpack-alias": "^2.0.0"
+    "jest-webpack-alias": "^2.0.0",
+    "react-hot-loader": "^1.3.0",
+    "webpack-dev-server": "^1.14.1"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/jest-preprocessor.js"

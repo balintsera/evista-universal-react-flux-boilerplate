@@ -31,7 +31,7 @@ module.exports = React.createClass({
     return (
       <div id='list'>
         <h1>Movies</h1>
-        <h6>Click on a movie to see the details</h6>
+        <h3>Click on a movie to see the details...</h3>
         <AddNewButton />
         <ul>
           {this.state.movies.map(function(movie) {

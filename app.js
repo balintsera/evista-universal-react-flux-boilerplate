@@ -117,6 +117,25 @@ waterline.initialize(config, function (err, ontology) {
   app.listen(PORT, function() {
     console.log('Example app listening at http://localhost:%s', PORT);
   });
-
 });
 
+if(app.get('env') == 'developement'){
+  // we start a webpack-dev-server with our config for react hot loading
+  var webpack = require('webpack');
+  var WebpackDevServer = require('webpack-dev-server');
+  var config = require('./webpack.config.js');
+  new WebpackDevServer(webpack(config), {
+    hot: true,
+    historyApiFallback: true,
+    proxy: {
+      "*": "http://localhost:" + PORT
+    }
+  })
+  .listen(3001, 'localhost', function (err, result) {
+    if (err) {
+      console.log(err);
+    }
+    console.log('Listening at localhost:3001');
+  });
+
+}

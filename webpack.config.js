@@ -12,13 +12,15 @@
 |  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for  |
 |  the specific language governing permissions and limitations under the License.                                     |
 \*-------------------------------------------------------------------------------------------------------------------*/
-
-'use strict';
+var webpack = require('webpack');
 
 module.exports = {
 
-  entry: __dirname + '/client/index.js',
-
+  entry: [
+    'webpack-dev-server/client?http://0.0.0.0:3001',
+    'webpack/hot/only-dev-server',
+    __dirname + '/client/index.js'
+  ],
   output: {
     path: __dirname + '/public',
     filename: 'bundle.js'
@@ -29,7 +31,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel?presets[]=react,presets[]=es2015'
+        loaders: ['babel?presets[]=react,presets[]=es2015', 'react-hot-loader']
       },
       {
         test: /\.json$/,
@@ -42,4 +44,8 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.json'],
     root: './',
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ]
 };
