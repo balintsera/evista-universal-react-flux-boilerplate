@@ -119,7 +119,7 @@ waterline.initialize(config, function (err, ontology) {
   });
 });
 
-if(app.get('env') == 'developement'){
+if(app.get('env') === 'development') {
   // we start a webpack-dev-server with our config for react hot loading
   var webpack = require('webpack');
   var WebpackDevServer = require('webpack-dev-server');
@@ -135,7 +135,7 @@ if(app.get('env') == 'developement'){
     if (err) {
       console.log(err);
     }
-    console.log('Listening at localhost:3001');
-  });
 
+    console.log('Hot loading server listening at localhost:3001');
+  });
 }

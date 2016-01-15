@@ -17,11 +17,14 @@ $ npm start
 $ open http://localhost:3000
 ```
 
-## developing (reload node on every single file change)
+## developing (hot reload)
 ```shell
-$ webpack --progress --colors --watch
-$ open http://localhost:3000
+$ npm start
 ```
+Go to http://localhost:3001. If you want to check the site _without_ hot reload, navigate to http://localhost:8080
+
+Hot reloading means that every jsx changes fires a full reload autmoatically. It is very helpful when creating React components.
+
 
 ## step by step walkthrough to build an app from this boilerplate
 

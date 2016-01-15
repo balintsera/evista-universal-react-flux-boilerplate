@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ec0db2fddd32a4d4f7cb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "05109f3cd55a5b4ebc94"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -32934,7 +32934,7 @@
 	        'image': 'https://upload.wikimedia.org/wikipedia/en/d/df/Elf_movie.jpg'
 	      }, {
 	        'id': '8',
-	        'title': 'A Christmas Carol',
+	        'title': 'A Christmas Carolllll',
 	        'url': 'https://en.wikipedia.org/wiki/A_Christmas_Carol_(1938_film)',
 	        'image': 'https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg'
 	      }];

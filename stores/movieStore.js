@@ -47,7 +47,7 @@ const movieStore = () => {
     },
     {
       'id': '8',
-      'title': 'A Christmas Carol',
+      'title': 'A Christmas Carolllll',
       'url': 'https://en.wikipedia.org/wiki/A_Christmas_Carol_(1938_film)',
       'image': 'https://upload.wikimedia.org/wikipedia/en/f/ff/CCPoster_art-1938.jpg',
     },
